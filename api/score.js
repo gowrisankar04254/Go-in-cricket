@@ -1,4 +1,3 @@
-
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
@@ -7,8 +6,9 @@ export default async function handler(req, res) {
 
     const now = new Date();
     const minutes = now.getMinutes();
-    const seconds = now.getSeconds(); ం
-    let totalProgress = (minutes % 5) * 60 + seconds; 
+    const seconds = now.getSeconds();
+    
+    let totalProgress = (minutes % 5) * 60 + seconds;
     let indOvers = Math.min(19, 15 + Math.floor(totalProgress / 20));
     let indBalls = Math.floor((totalProgress % 20) / 3);
     if (indBalls > 5) indBalls = 5;
@@ -44,6 +44,4 @@ export default async function handler(req, res) {
         ]
     });
 }
-
-
  
