@@ -1,20 +1,24 @@
- 
-export default function handler(req, res) {
+
+export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
 
     const now = new Date();
-    const sec = now.getSeconds();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds(); ం
+    let totalProgress = (minutes % 5) * 60 + seconds; 
+    let indOvers = Math.min(19, 15 + Math.floor(totalProgress / 20));
+    let indBalls = Math.floor((totalProgress % 20) / 3);
+    if (indBalls > 5) indBalls = 5;
+
+    let indRuns = 135 + (indOvers - 15) * 6 + indBalls * 2;
+    if (indRuns > 179) indRuns = 179;
     
-    const indRuns = 112 + Math.floor(sec / 5);
-    const indWickets = 5;
-    const ballsCount = (13 + Math.floor(sec / 10)) % 6;
-    let oversCount = 14 + Math.floor((13 + Math.floor(sec / 10)) / 6);
-    if (oversCount >= 20) oversCount = 19;
-    
-    const target = 180;
-    const runsNeeded = target - indRuns;
-    const ballsRemaining = 120 - (oversCount * 6 + ballsCount);
+    let target = 180;
+    let runsNeeded = target - indRuns;
+    let ballsRemaining = 120 - (indOvers * 6 + indBalls);
 
     return res.status(200).json({
         success: true,
@@ -25,7 +29,7 @@ export default function handler(req, res) {
                 team1: "NZ",
                 score1: "180/5 (20.0)",
                 team2: "IND",
-                score2: `${indRuns}/${indWickets} (${oversCount}.${ballsCount})`,
+                score2: `${indRuns}/6 (${indOvers}.${indBalls})`,
                 info: `India need ${runsNeeded > 0 ? runsNeeded : 0} runs in ${ballsRemaining > 0 ? ballsRemaining : 0} balls`
             },
             {
@@ -40,3 +44,6 @@ export default function handler(req, res) {
         ]
     });
 }
+
+
+ 
