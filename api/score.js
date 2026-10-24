@@ -1,3 +1,4 @@
+ 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
@@ -5,43 +6,45 @@ export default async function handler(req, res) {
     res.setHeader('Expires', '0');
 
     const now = new Date();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
-    
-    let totalProgress = (minutes % 5) * 60 + seconds;
-    let indOvers = Math.min(19, 15 + Math.floor(totalProgress / 20));
-    let indBalls = Math.floor((totalProgress % 20) / 3);
-    if (indBalls > 5) indBalls = 5;
+    const sec = now.getSeconds();
+    const min = now.getMinutes();
 
-    let indRuns = 135 + (indOvers - 15) * 6 + indBalls * 2;
-    if (indRuns > 179) indRuns = 179;
-    
-    let target = 180;
-    let runsNeeded = target - indRuns;
-    let ballsRemaining = 120 - (indOvers * 6 + indBalls);
+    // Dynamic live simulation ticks
+    let t20Overs = 16 + Math.floor((min % 4) / 2);
+    let t20Balls = (sec % 6);
+    let indRuns = 142 + (t20Overs - 16) * 6 + t20Balls * 3;
+    if (indRuns > 185) indRuns = 185;
 
     return res.status(200).json({
         success: true,
         matches: [
             {
-                series: "2nd T20I • India tour of New Zealand 2026",
-                status: "LIVE",
-                team1: "NZ",
-                score1: "180/5 (20.0)",
+                series: "1st Test • India tour of Australia 2026",
+                status: "COMPLETED",
+                team1: "AUS",
+                score1: "345 & 212",
                 team2: "IND",
-                score2: `${indRuns}/6 (${indOvers}.${indBalls})`,
-                info: `India need ${runsNeeded > 0 ? runsNeeded : 0} runs in ${ballsRemaining > 0 ? ballsRemaining : 0} balls`
+                score2: "410 & 148/4",
+                info: "India won by 6 wickets"
             },
             {
-                series: "2nd ODI • Ireland tour of Namibia 2026",
+                series: "3rd T20I • India vs New Zealand 2026",
                 status: "LIVE",
-                team1: "NAM",
-                score1: "192/4 (38.2)",
-                team2: "IRE",
-                score2: "Yet to bat",
-                info: "Namibia innings in progress"
+                team1: "NZ",
+                score1: "186/6 (20.0)",
+                team2: "IND",
+                score2: `${indRuns}/5 (${t20Overs}.${t20Balls})`,
+                info: `India need ${187 - indRuns} runs in ${(20 - t20Overs)*6 - t20Balls} balls`
+            },
+            {
+                series: "ICC Champions Trophy • Final",
+                status: "UPCOMING",
+                team1: "ENG",
+                score1: "Yet to begin",
+                team2: "PAK",
+                score2: "Yet to begin",
+                info: "Match starts at 02:30 PM IST tomorrow"
             }
         ]
     });
 }
- 
