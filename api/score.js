@@ -1,26 +1,26 @@
-export default async function handler(req, res) {
+ export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Cache-Control', 's-maxage=5, stale-while-revalidate=5');
 
     return res.status(200).json({
         matches: [
             {
-                series: "India tour of New Zealand 2026 - 2nd T20I",
+                series: "2nd T20I • India tour of New Zealand 2026",
                 status: "LIVE",
                 team1: "NZ",
                 score1: "180/5 (20.0)",
                 team2: "IND",
-                score2: "56/3 (8.4)",
-                info: "India need 125 runs in 11.2 overs"
+                score2: "86/5 (12.3)",
+                info: "India need 95 runs in 45 balls"
             },
             {
-                series: "Ireland tour of Namibia 2026 - 2nd ODI",
+                series: "2nd ODI • Ireland tour of Namibia 2026",
                 status: "LIVE",
                 team1: "NAM",
-                score1: "166/3 (33.0)",
+                score1: "179-3 (35.4)",
                 team2: "IRE",
                 score2: "Yet to bat",
-                info: "Ireland won the toss and elected to bowl"
+                info: "Ireland opt to bowl"
             },
             {
                 series: "ICC Men's T20 World Cup Africa Qualifier C",
@@ -34,4 +34,3 @@ export default async function handler(req, res) {
         ]
     });
 }
- 
